@@ -55,13 +55,13 @@ public class FileIo {
         return sb.toString();
     }
     
-    public static void writeToFile(String filename, ResultSet rs) throws Exception {
-        writeToFile(filename, rs, "|", "\n");
+    public static void writeToFile(File file, ResultSet rs) throws Exception {
+        writeToFile(file, rs, "|", "\n");
     }
     
-    public static void writeToFile(String filename, ResultSet rs, String delimiter, String newline) throws Exception {
+    public static void writeToFile(File file, ResultSet rs, String delimiter, String newline) throws Exception {
         
-        if(filename == null) {
+        if(file == null) {
             throw new Exception(NULL_FILE);
         }
         
@@ -85,8 +85,7 @@ public class FileIo {
             break;
         }
         
-        File f = new File(filename);
-        FileWriter fw = new FileWriter(f);
+        FileWriter fw = new FileWriter(file);
         
         int colCount = rs.getMetaData().getColumnCount();
         
