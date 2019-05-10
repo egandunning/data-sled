@@ -3,12 +3,17 @@ package ui;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Label;
+import java.awt.event.ActionEvent;
 import java.io.File;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 
 import workhorse.DbFetch;
 import workhorse.FileIo;
@@ -25,7 +30,7 @@ public class ActionBar extends JPanel {
     private static final String DATA_SET_NAME_LABEL = "Data set name:";
     private static final String COPY_LOC_LABEL = "Copy to:";
     private static final String PASS_LABEL = "Database password:";
-    private static final String GO_BUTTON_LABEL = "Query & Copy";
+    private static final String GO_BUTTON_LABEL = "Query & Copy (F5)";
     
     private String fileExt = ".psv";
     
@@ -46,6 +51,19 @@ public class ActionBar extends JPanel {
         
         goButton = new JButton(GO_BUTTON_LABEL);
         goButton.addActionListener(e -> goButtonPressed());
+        
+        Action action = new AbstractAction("goButton") {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                goButtonPressed();
+            }
+        };
+        
+        action.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke("F5"));
+        goButton.getActionMap().put("f5", action);
+        goButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put((KeyStroke) action.getValue(Action.ACCELERATOR_KEY), "f5");
         
         GridBagConstraints gbc1 = new GridBagConstraints();
         GridBagConstraints gbc2 = new GridBagConstraints();
@@ -131,7 +149,9 @@ public class ActionBar extends JPanel {
             return;
         }
         
-        dbConnLocField.setText(connLocation);
+        if(connLocation != null && connLocation.trim().length() > 0) {
+            dbConnLocField.setText(connLocation);
+        }
     }
     
     public String getDataSetName() {
