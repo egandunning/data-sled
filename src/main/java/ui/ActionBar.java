@@ -82,12 +82,12 @@ public class ActionBar extends JPanel {
     }
     
     private void goButtonPressed() {
-
+        
         String dbConnLocText = dbConnLocField.getText();
         String dataSetNameText = dataSetNameField.getText();
         String copyLocText = copyLocField.getText();
         String query = MainWindow.getEditorText();
-        DbFetch.setPass(passField.getPassword()); //dabbad00.
+        DbFetch.setPass(passField.getPassword());
         
         if(dbConnLocText == null || dbConnLocText.trim().length() == 0) {
             Popup.error("DB connection file not specified", DB_CONN_LOC_NULL_MSG);
@@ -101,7 +101,7 @@ public class ActionBar extends JPanel {
         File dir;
         
         if(copyLocText == null || copyLocText.trim().length() == 0) {
-            dir = new File("data");    
+            dir = new File("data");
         } else {
             dir = new File(copyLocText);
         }
@@ -115,10 +115,13 @@ public class ActionBar extends JPanel {
             File file = new File(dir, dataSetNameText + fileExt);
             
             FileIo.writeToFile(file.getAbsolutePath(), DbFetch.fetch(dbConnLocField.getText(), query));
+            Popup.success("Query results copied", file.getAbsolutePath());
+            
         } catch(Exception e) {
             e.printStackTrace();
             Popup.error("Exception while executing query", e);
         }
+ 
     }
     
     public String getDataSetName() {
