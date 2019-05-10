@@ -39,7 +39,7 @@ public class ActionBar extends JPanel {
     public ActionBar() {
         setLayout(new GridBagLayout());
         
-        dbConnLocField = new JTextField();
+        dbConnLocField = new JTextField("default.txt");
         dataSetNameField = new JTextField();
         copyLocField = new JTextField();
         passField = new JPasswordField();
