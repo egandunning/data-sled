@@ -1,21 +1,36 @@
-package ui;
+    package ui;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 public class Popup {
 
     public static void error(String title, Exception e) {
-        JOptionPane.showMessageDialog(MainWindow.getInstance(),
-                e.getMessage(),
-                title,
-                JOptionPane.ERROR_MESSAGE);
+        
+        JTextArea msg = new JTextArea(e.getMessage());
+        JOptionPane op = new JOptionPane(msg, JOptionPane.ERROR_MESSAGE);
+        msg.setBackground(op.getBackground());
+        JDialog dialog = op.createDialog(MainWindow.getInstance(), title);
+        dialog.setVisible(true);
     }
     
     public static void error(String title, String message) {
-        JOptionPane.showMessageDialog(MainWindow.getInstance(),
-                message,
-                title,
-                JOptionPane.ERROR_MESSAGE);
+        
+        JTextArea msg = new JTextArea(message);
+        JOptionPane op = new JOptionPane(msg, JOptionPane.ERROR_MESSAGE);
+        msg.setBackground(op.getBackground());
+        JDialog dialog = op.createDialog(MainWindow.getInstance(), title);
+        dialog.setVisible(true);
+        
     }
     
+    public static void success(String title, String message) {
+        
+        JTextArea msg = new JTextArea(message);
+        JOptionPane op = new JOptionPane(msg, JOptionPane.INFORMATION_MESSAGE);
+        msg.setBackground(op.getBackground());
+        JDialog dialog = op.createDialog(MainWindow.getInstance(), title);
+        dialog.setVisible(true);
+    }
 }
