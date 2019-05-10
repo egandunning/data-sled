@@ -114,7 +114,7 @@ public class ActionBar extends JPanel {
             
             File file = new File(dir, dataSetNameText + fileExt);
             
-            FileIo.writeToFile(file.getAbsolutePath(), DbFetch.fetch(dbConnLocField.getText(), query));
+            FileIo.writeToFile(file, DbFetch.fetch(dbConnLocField.getText(), query));
             Popup.success("Query results copied", file.getAbsolutePath());
             
         } catch(Exception e) {
@@ -122,6 +122,16 @@ public class ActionBar extends JPanel {
             Popup.error("Exception while executing query", e);
         }
  
+    }
+    
+    public void setDbConnLocField(String connLocation) {
+        
+        if(dbConnLocField == null) {
+            System.out.println("error - attempted to set db connection location before component was initialized");
+            return;
+        }
+        
+        dbConnLocField.setText(connLocation);
     }
     
     public String getDataSetName() {

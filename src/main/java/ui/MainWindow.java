@@ -51,9 +51,17 @@ public class MainWindow extends JFrame {
         setTitle("Data Sled");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        setSize(700, 900);
+        setSize(700, 800);
     }
     
+    public ActionBar getActionBar() {
+        
+        if(actionBar == null) {
+            System.out.println("attempting to retrieve null ActionBar object");
+        }
+        
+        return actionBar;
+    }
     
     public static String getEditorText() {
         return getInstance().editor.getText();

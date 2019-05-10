@@ -13,8 +13,14 @@ public class Main {
             e.printStackTrace();
         }
         
+        String connectArg = (args.length == 1) ? args[0] : "";
+        
         //Show main window
         MainWindow mw = MainWindow.getInstance();
+        
+        if(mw.getActionBar() != null) {
+            mw.getActionBar().setDbConnLocField(connectArg);
+        }
         
         mw.setVisible(true);
 
