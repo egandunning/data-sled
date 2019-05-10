@@ -7,6 +7,7 @@ import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import workhorse.DbFetch;
@@ -23,22 +24,25 @@ public class ActionBar extends JPanel {
             "connstring=<JDBC connection string. Password can be parameterized with $PASSWORD>\"";
     private static final String DATA_SET_NAME_LABEL = "Data set name:";
     private static final String COPY_LOC_LABEL = "Copy to:";
+    private static final String PASS_LABEL = "Database password:";
     private static final String GO_BUTTON_LABEL = "Query & Copy";
     
     private String fileExt = ".psv";
     
-    private JTextField dbConnLoc;
-    private JTextField dataSetName;
-    private JTextField copyLoc;
+    private JTextField dbConnLocField;
+    private JTextField dataSetNameField;
+    private JTextField copyLocField;
+    private JPasswordField passField;
     private JButton goButton;
     
     
     public ActionBar() {
         setLayout(new GridBagLayout());
         
-        dbConnLoc = new JTextField();
-        dataSetName = new JTextField();
-        copyLoc = new JTextField();
+        dbConnLocField = new JTextField();
+        dataSetNameField = new JTextField();
+        copyLocField = new JTextField();
+        passField = new JPasswordField();
         
         goButton = new JButton(GO_BUTTON_LABEL);
         goButton.addActionListener(e -> goButtonPressed());
@@ -58,27 +62,32 @@ public class ActionBar extends JPanel {
         gbc2.ipadx = 2;
         gbc2.fill = GridBagConstraints.HORIZONTAL;
         
-        add(new Label(DB_CONN_LOC_LABEL, Label.RIGHT), gbc1);
-        add(dbConnLoc, gbc2);
+        add(new Label(DB_CONN_LOC_LABEL), gbc1);
+        add(dbConnLocField, gbc2);
         gbc1.gridy++;
         gbc2.gridy++;
-        add(new Label(DATA_SET_NAME_LABEL, Label.RIGHT), gbc1);
-        add(dataSetName, gbc2);
+        add(new Label(DATA_SET_NAME_LABEL), gbc1);
+        add(dataSetNameField, gbc2);
         gbc1.gridy++;
         gbc2.gridy++;
-        add(new Label(COPY_LOC_LABEL, Label.RIGHT), gbc1);
-        add(copyLoc, gbc2);
-        gbc1.gridx++;
+        add(new Label(COPY_LOC_LABEL), gbc1);
+        add(copyLocField, gbc2);
+        gbc1.gridy++;
+        gbc2.gridy++;
+        add(new Label(PASS_LABEL), gbc1);
+        add(passField, gbc2);
+        gbc1.gridy++;
         gbc2.gridy++;
         add(goButton, gbc2);
     }
     
     private void goButtonPressed() {
 
-        String dbConnLocText = dbConnLoc.getText();
-        String dataSetNameText = dataSetName.getText();
-        String copyLocText = copyLoc.getText();
+        String dbConnLocText = dbConnLocField.getText();
+        String dataSetNameText = dataSetNameField.getText();
+        String copyLocText = copyLocField.getText();
         String query = MainWindow.getEditorText();
+        DbFetch.setPass(passField.getPassword()); //dabbad00.
         
         if(dbConnLocText == null || dbConnLocText.trim().length() == 0) {
             Popup.error("DB connection file not specified", DB_CONN_LOC_NULL_MSG);
@@ -105,7 +114,7 @@ public class ActionBar extends JPanel {
             
             File file = new File(dir, dataSetNameText + fileExt);
             
-            FileIo.writeToFile(file.getAbsolutePath(), DbFetch.fetch(dbConnLoc.getText(), query));
+            FileIo.writeToFile(file.getAbsolutePath(), DbFetch.fetch(dbConnLocField.getText(), query));
         } catch(Exception e) {
             e.printStackTrace();
             Popup.error("Exception while executing query", e);
@@ -113,11 +122,11 @@ public class ActionBar extends JPanel {
     }
     
     public String getDataSetName() {
-        return dataSetName.getText();
+        return dataSetNameField.getText();
     }
     
     public String getCopyLoc() {
-        return copyLoc.getText();
+        return copyLocField.getText();
     }
     
 }

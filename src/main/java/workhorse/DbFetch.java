@@ -36,13 +36,12 @@ public class DbFetch {
         }
         
         if(connString.contains("$PASSWORD")) {
-            if(pass == null) {
+            if(pass == null || pass.length == 0) {
                 throw new Exception("password has not been set...");
             }
-            connString.replace("$PASSWORD", new String(pass));
+            connString = connString.replace("$PASSWORD", new String(pass));
         }
-        
-        
+
         Connection conn = DriverManager.getConnection(connString);
         
         return conn.prepareStatement(query).executeQuery();
