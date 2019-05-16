@@ -56,10 +56,10 @@ public class FileIo {
     }
     
     public static void writeToFile(File file, ResultSet rs) throws Exception {
-        writeToFile(file, rs, "|", "\n");
+        writeToFile(file, rs, "|", "\n", 200);
     }
     
-    public static void writeToFile(File file, ResultSet rs, String delimiter, String newline) throws Exception {
+    public static void writeToFile(File file, ResultSet rs, String delimiter, String newline, int fetchSize) throws Exception {
         
         if(file == null) {
             throw new Exception(NULL_FILE);
@@ -86,6 +86,8 @@ public class FileIo {
         }
         
         FileWriter fw = new FileWriter(file);
+        
+        rs.setFetchSize(fetchSize);
         
         int colCount = rs.getMetaData().getColumnCount();
         
