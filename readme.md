@@ -17,7 +17,7 @@ username=<required>
 connstring=<required - this is a standard JDBC connection string>
 ```
 
-5. Double click `start.bat`
+5. Double click `data-sled.bat`
 
 6. Fill the following fields
 	1. Enter desired filename - file extension is automatically set to .psv (if left blank, set to `run_<unix timestamp>`)
