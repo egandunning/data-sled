@@ -3,6 +3,7 @@ package ui;
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
@@ -15,8 +16,12 @@ public class Editor extends JPanel {
     public Editor() {
         setBorder(new EmptyBorder(5, 5, 5, 5));
         textArea = new JTextArea();
+        
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        
         setLayout(new BorderLayout());
-        this.add(textArea, BorderLayout.CENTER);
+        
+        this.add(scrollPane, BorderLayout.CENTER);
     }
     
     public String getText() {
