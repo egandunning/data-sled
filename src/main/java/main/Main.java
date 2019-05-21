@@ -2,12 +2,10 @@ package main;
 
 import java.io.Console;
 import java.io.File;
-import java.util.Locale;
 
 import javax.swing.UIManager;
 
 import ui.MainWindow;
-import ui.Popup;
 import workhorse.DbFetch;
 import workhorse.FileIo;
 
@@ -17,7 +15,7 @@ public class Main {
             + "connection filename: the path to the database connection configuration file\n"
             + "query flename: the path to the SQL query to run\n"
             + "copy to filename: the file to copy exported results to";
-    private static final String CONSOLE_ERR_MSG = "aborted";
+    private static final String CONSOLE_SUCCESS_MSG = "success";
 
     public static void main(String[] args) {
         
@@ -43,29 +41,11 @@ public class Main {
     
     private static void consoleMode(String connectionFilename, String queryFilename, String copyToFilename) {
         
-        //true if host os is windows
-        boolean windows = System.getProperty("os.name").toLowerCase(Locale.ROOT).startsWith("windows");
-        
-        Runtime rt = Runtime.getRuntime();
-        
-        //Set exit status to failed
-        try {
-            if(windows) {
-                rt.exec("set ds_exit_cd=1");
-            } else {
-                rt.exec("export ds_exit_cd=1");
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-            System.out.println(CONSOLE_ERR_MSG);
-        }
-        
         //check for null/missing values
         if(connectionFilename == null || connectionFilename.trim().length() == 0
                 || queryFilename == null || queryFilename.trim().length() == 0
                 || copyToFilename == null || copyToFilename.trim().length() == 0) {
             System.out.println(CONSOLE_ARG_MSG);
-            System.out.println(CONSOLE_ERR_MSG);
             return;
         }
         
@@ -75,14 +55,13 @@ public class Main {
             query = FileIo.readToString(queryFilename);
         } catch(Exception e) {
             e.printStackTrace();
-            System.out.println(CONSOLE_ERR_MSG);
             return;
         }
         
         Console cns = System.console();
         if(cns == null) {
             System.out.println("unable to initialize console - can not read password");
-            System.out.println(CONSOLE_ERR_MSG);
+            return;
         }
         
         System.out.println("Enter database password");
@@ -97,10 +76,11 @@ public class Main {
             
             FileIo.writeToFile(file, DbFetch.fetch(connectionFilename, query));
             System.out.println("Query results copied: " + file.getAbsolutePath());
+            System.out.println(CONSOLE_SUCCESS_MSG);
             
         } catch(Exception e) {
             e.printStackTrace();
-            Popup.error("Exception while executing query", e);
+            return;
         }
         
     }
