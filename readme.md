@@ -28,3 +28,22 @@ connstring=<required - this is a standard JDBC connection string>
 
 8. File path will be displayed in a dialog box upon success
 
+## Command-line Usage (No GUI)
+
+This functionality was introduced in release 0.0.4
+
+1. Put database connection details into `/path/to/connection.txt` (see above for format - step 4 in Usage)
+
+2. Save SQL query in text file `/path/to/query.sql`
+
+3. Copy JDBC drivers into `./jdbc` folder (same as above step 3 in Usage)
+
+4. Run the following: `./data-sled.bat /path/to/connection.txt /path/to/query.sql /output/filename.txt`. Note that `/output/filename.txt` will be overwritten if it already exists.
+
+5. Enter database password when prompted. Upon error, the stack trace will be printed to console. Upon success, the following message will be printed:
+
+```
+Query results copied: /output/filename.txt
+success
+```
+
