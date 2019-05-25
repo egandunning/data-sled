@@ -8,7 +8,7 @@ Java GUI application to export database query results to delimited files.
 
 2. Unzip
 
-3. Copy desired JBDC drivers into `jdbc` folder
+3. Copy desired JDBC drivers into `jdbc` folder
 
 4. Put default database connection details into `default.txt` - this is a Java properties file.
 ```
